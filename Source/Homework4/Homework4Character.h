@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Homework4Character.generated.h"
 
 class UInputComponent;
@@ -12,6 +13,9 @@ UCLASS(config=Game)
 class AHomework4Character : public ACharacter
 {
 	GENERATED_BODY()
+		//===========================================================================================================
+		UPROPERTY(EditAnywhere)
+		float speedFactor;
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
@@ -44,6 +48,7 @@ class AHomework4Character : public ACharacter
 	/** Motion controller (left hand) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
+
 
 public:
 	AHomework4Character();
@@ -137,6 +142,17 @@ public:
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+
+	//==========================================================================================================================================================
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////	////////////////////////////
+	UFUNCTION()
+		void Boost();
+	UFUNCTION()
+		void Normal();
+
+	virtual void Tick(float DeltaTime) override;
+	float timing = 5.0f;
+	bool canBoost;
 
 };
 

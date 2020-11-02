@@ -1,6 +1,8 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+﻿// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "Homework4Character.h"
+#include "MSPickup.h"
+#include "Engine.h"
 #include "Homework4Projectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
@@ -11,13 +13,16 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+//////////////////////////////////////////////////////////////////////////
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 //////////////////////////////////////////////////////////////////////////
 // AHomework4Character
 
-AHomework4Character::AHomework4Character()
+AHomework4Character::AHomework4Character() 
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -82,7 +87,27 @@ AHomework4Character::AHomework4Character()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+
+	canBoost = true;
+
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------------------=-=-=-------========================
+void AHomework4Character::Boost()
+{
+	GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed * 2;
+}
+
+void AHomework4Character::Normal()
+{
+	if (!canBoost)
+	{
+		GetCharacterMovement()->MaxWalkSpeed =- 2000;
+	}
+	
+	
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------==========================================
 
 void AHomework4Character::BeginPlay()
 {
@@ -103,7 +128,28 @@ void AHomework4Character::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+
+	//float timing = 5.0f;
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------------------==========================================
+
+void AHomework4Character::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Black, FString::Printf(TEXT("HOME4 Character Working")));
+
+	if (GetCharacterMovement()->MaxWalkSpeed >= 700)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.2f, FColor::Red, FString::Printf(TEXT("HOME4 Character Passed 700 ")));
+		timing -= DeltaTime;
+		if (timing <= 0.0f)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("5 秒真男人 结束啦 ？")));
+			GetCharacterMovement()->MaxWalkSpeed = 600.0;
+		}
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -161,7 +207,7 @@ void AHomework4Character::OnFire()
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
+				
 				// spawn the projectile at the muzzle
 				World->SpawnActor<AHomework4Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
