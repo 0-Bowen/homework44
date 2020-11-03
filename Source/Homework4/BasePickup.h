@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "BasePickup.generated.h"
 
+
 UCLASS()
 class HOMEWORK4_API ABasePickup : public AActor
 {
