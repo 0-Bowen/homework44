@@ -154,5 +154,8 @@ public:
 	float timing = 5.0f;
 	bool canBoost;
 
+	FTimerHandle TimerHandler; 
+
+
 };
 

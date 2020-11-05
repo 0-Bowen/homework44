@@ -37,7 +37,7 @@ void AHomework4Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActo
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
+		//OtherActor->Destroy();
 		Destroy();
 	}
 }

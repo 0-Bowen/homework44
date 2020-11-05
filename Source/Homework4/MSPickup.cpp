@@ -28,20 +28,7 @@ void AMSPickup::BeginPlay()
 void AMSPickup::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	/*
-	if (canBoost)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red, FString::Printf(TEXT("Timer started")));
-		timeElapse = -DeltaTime;
 
-		if (timeElapse <= 0.0f)
-		{
-			canBoost = false;
-			GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Red, FString::Printf(TEXT("End boost")));
-		}
-
-	}
-	*/
 }
 
 void AMSPickup::Boost(AActor* OtherActor)
@@ -57,19 +44,22 @@ void AMSPickup::OnCharacterOverlap(UPrimitiveComponent* OverlappedComp, AActor* 
 
 		canBoost = true;
 		auto character = Cast<AHomework4Character>(OtherActor);
+		//float* baseSpeed = &character->GetCharacterMovement()->MaxWalkSpeed;
+
 		if (character != nullptr)
 		{
-			// float baseSpeed = character->GetCharacterMovement()->MaxWalkSpeed;
+			
 			character->GetCharacterMovement()->MaxWalkSpeed =+ MSBoost;
+				
 		}
+		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Red, FString::Printf(TEXT("5 Seconds Only")));
 
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Red, FString::Printf(TEXT("5 Seconds")));
-
+		/*
 		if (timeElapse <= 5)
 		{
 			//character->GetCharacterMovement()->MaxWalkSpeed =- MSBoost;
 		}
-
+		*/
 		//-----------------------------------------------------
 		Destroy();
 	}

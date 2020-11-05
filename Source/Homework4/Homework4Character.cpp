@@ -146,6 +146,7 @@ void AHomework4Character::Tick(float DeltaTime)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("5 秒真男人 结束啦 ？")));
 			GetCharacterMovement()->MaxWalkSpeed = 600.0;
+			timing = 5.0f;
 		}
 	}
 }
