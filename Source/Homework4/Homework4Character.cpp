@@ -195,6 +195,24 @@ void AHomework4Character::Tick(float DeltaTime)
 			CameraZoomOut();
 		}
 	}
+
+	//--------------------Aim---------------------
+	if (isZooming == true)
+	{
+		if (fieldOfView >= 70.0f)
+		{
+			fieldOfView -= DeltaTime * 55;
+			CameraZoomIn();
+		}
+	}
+	else if(isZooming == false)
+	{
+		if (fieldOfView <= 90.f)
+		{
+			fieldOfView += DeltaTime * 55;
+			CameraZoomOut();
+		}
+	}
 }
 
 
