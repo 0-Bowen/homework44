@@ -49,12 +49,19 @@ class AHomework4Character : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
 
+	
 
+	UPROPERTY(EditAnyWhere)
+		bool isZooming;
+	UPROPERTY(EditAnyWhere)
+		float fieldOfView;
 public:
 	AHomework4Character();
 
-protected:
+public:
 	virtual void BeginPlay();
+	void CameraZoomIn();
+	void CameraZoomOut();
 
 public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -84,6 +91,7 @@ public:
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
+
 
 protected:
 	

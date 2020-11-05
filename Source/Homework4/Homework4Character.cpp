@@ -16,6 +16,9 @@
 //////////////////////////////////////////////////////////////////////////
 #include "GameFramework/CharacterMovementComponent.h"
 
+#include "Engine/Engine.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -24,12 +27,17 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 AHomework4Character::AHomework4Character() 
 {
+	//Aiming
+	isZooming = false;
+	fieldOfView = 90.0f;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
+
+	
 
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
@@ -89,8 +97,9 @@ AHomework4Character::AHomework4Character()
 	//bUsingMotionControllers = true;
 
 	canBoost = true;
-
 }
+
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------------=-=-=-------========================
 void AHomework4Character::Boost()
 {
@@ -106,6 +115,25 @@ void AHomework4Character::Normal()
 	
 	
 }
+//----------------Aim-----------------
+void AHomework4Character::CameraZoomIn()
+{
+	if (auto firstPersonCamera = GetFirstPersonCameraComponent())
+	{
+		firstPersonCamera->SetFieldOfView(fieldOfView);
+		isZooming = true;
+	}
+}
+
+void AHomework4Character::CameraZoomOut()
+{
+	if (auto firstPersonCamera = GetFirstPersonCameraComponent())
+	{
+		firstPersonCamera->SetFieldOfView(fieldOfView);
+		isZooming = false;
+	}
+}
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------==========================================
 
@@ -149,7 +177,26 @@ void AHomework4Character::Tick(float DeltaTime)
 			timing = 5.0f;
 		}
 	}
+
+	//--------------------Aim---------------------
+	if (isZooming == true)
+	{
+		if (fieldOfView >= 70.0f)
+		{
+			fieldOfView -= DeltaTime * 55;
+			CameraZoomIn();
+		}
+	}
+	else if(isZooming == false)
+	{
+		if (fieldOfView <= 90.f)
+		{
+			fieldOfView += DeltaTime * 55;
+			CameraZoomOut();
+		}
+	}
 }
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -157,8 +204,12 @@ void AHomework4Character::Tick(float DeltaTime)
 
 void AHomework4Character::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
+	
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AHomework4Character::CameraZoomIn);
+	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AHomework4Character::CameraZoomOut);
 
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
