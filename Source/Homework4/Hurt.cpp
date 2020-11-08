@@ -38,7 +38,7 @@ void UHurt::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentT
 
 void UHurt::OnHit(UPrimitiveComponent* MyComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
 {
-
+	//auto cube = Cast<UHurt>(MyComp);
 	auto bullet = Cast<AHomework4Projectile>(OtherActor);
 	if ((bullet != nullptr))
 	{	
@@ -52,7 +52,7 @@ void UHurt::OnHit(UPrimitiveComponent* MyComp, AActor* OtherActor, UPrimitiveCom
 
 		hp--;
 
-		if (hp == 2)
+		if ( hp == 2)
 		{
 			CubeMesh->SetMaterial(0, aMaterial);
 		}
@@ -61,20 +61,25 @@ void UHurt::OnHit(UPrimitiveComponent* MyComp, AActor* OtherActor, UPrimitiveCom
 			CubeMesh->SetMaterial(0, bMaterial);
 		}
 			
-		else if (hp == 0)
+		else if ( hp == 0)
 		{
+
 			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Red, FString::Printf(TEXT("Cube Died")));
 			
-			K2_DestroyComponent(this);
-			
-			//Destroy();
 
-			// CubeMesh->DestroyComponent();
+			//GetWorld()->ForceGarbageCollection(true);
+			//K2_DestroyComponent(this);
+			//Destroy();
+			//OnComponentDestroyed(true);
+
+
+
+			CubeMesh->DestroyComponent();
 		}
 
 		return;
 	}
-
 	/*	*/
 
 }
+

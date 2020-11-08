@@ -1,7 +1,9 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+﻿// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 #include "Homework4Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Hurt.h"
+#include "Engine.h"
 #include "Components/SphereComponent.h"
 
 AHomework4Projectile::AHomework4Projectile() 
@@ -36,8 +38,22 @@ void AHomework4Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActo
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-		//OtherActor->Destroy();
+		OtherComp->AddImpulseAtLocation(GetVelocity() * 15.0f, GetActorLocation());
+		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Purple, FString::Printf(TEXT("111111111111111111111")));
+
+		/*
+		auto cubehurt = Cast<UHurt>(OtherActor);
+		if (OtherActor->IsA(cubehurt))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Purple, FString::Printf(TEXT("222222222222222")));
+			
+		}
+		//(cubehurt->hp == 0) &&
+		OtherActor->Destroy();
+		*/
+
+		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Purple, FString::Printf(TEXT("3333333333333333333")));
 		Destroy();
 	}
 }
+

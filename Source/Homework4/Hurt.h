@@ -14,7 +14,7 @@ class HOMEWORK4_API UHurt : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	UHurt();
+	 UHurt();
 
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* CubeMesh;
@@ -42,6 +42,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		virtual void OnHit(UPrimitiveComponent* MyComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit);
 
+	
 	// UFUNCTION(BlueprintCallable)
 		// virtual void OnComponentHit()
 };
