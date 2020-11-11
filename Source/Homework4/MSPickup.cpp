@@ -15,6 +15,10 @@ AMSPickup::AMSPickup()
 	MSBoost = 2000.0;
 	canBoost = false;
 	
+	PickupMesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PICK UP MESH COMP 2"));
+	PickupMesh2->AttachToComponent(PickupRoot, FAttachmentTransformRules::SnapToTargetIncludingScale);
+
+
 }
 
 // Called when the game starts or when spawned

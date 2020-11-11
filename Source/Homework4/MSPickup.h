@@ -22,6 +22,9 @@ public:
 	AMSPickup();
 
 	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* PickupMesh2;
+
+	UPROPERTY(EditAnywhere)
 		float MSBoost;
 
 	////////////////////////////

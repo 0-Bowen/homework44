@@ -22,6 +22,7 @@ ABasePickup::ABasePickup()
 	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PICK UP MESH COMP"));
 	PickupMesh->AttachToComponent(PickupRoot, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
+
 	PickupCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("PICK UP COLLISION"));
 	PickupCollision->SetWorldScale3D(FVector(2.0f, 2.0f, 2.0f));
 	PickupCollision->SetCollisionProfileName("OverlapAll");
